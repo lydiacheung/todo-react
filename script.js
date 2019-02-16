@@ -1,34 +1,36 @@
 class List extends React.Component {
-  constructor(){
-    super()
-    this.changeHandler = this.changeHandler.bind( this );
+  constructor() {
+    super();
+    this.addHandler = this.addHandler.bind(this);
+    this.updateHandler = this.updateHandler.bind(this);
   }
 
   state = {
-    list : [],
-    word : ""
-  }
+    list: [],
+    word: ""
+  };
 
-  changeHandler(event){
-    this.setState({word:event.target.value});
-    console.log("change", event.target.value);
+  addHandler() {
+    let newArr = this.state.list;
+    newArr.push(this.state.word);
+    this.setState({ list: newArr });
+    console.log(this.state.list);
+  }
+  updateHandler(event) {
+    this.setState({ word: event.target.value });
   }
 
   render() {
-      // render the list with a map() here
-
-      console.log("rendering");
-      return (
-        <div className="list">
-          <input onChange={this.changeHandler} value={this.state.word}/>
-          <button>add item</button>
-        </div>
-      );
+    let displayList = this.state.list.map(listitem => <li>{listitem}</li>);
+    console.log("rendering");
+    return (
+      <div className="list">
+        <input onChange={this.updateHandler} value={this.state.word} />
+        <button onClick={this.addHandler}>Add item</button>
+        <ol>{displayList}</ol>
+      </div>
+    );
   }
 }
 
-ReactDOM.render(
-    <List/>,
-    document.getElementById('root')
-);
-
+ReactDOM.render(<List />, document.getElementById("root"));
